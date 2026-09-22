@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ledger Tools — Free Calculators for Everyday Math</title>
+<meta name="description" content="Free crypto profit, EMI/loan, percentage, unit conversion and age calculators. Fast, accurate, no sign-up.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7094780555111649"
+     crossorigin="anonymous"></script>
+<style>
+  :root{
+    --paper: #EFEAE0;
+    --paper-2: #E6DFCF;
+    --ink: #20261F;
+    --ink-soft: #4B5148;
+    --rule: #C3B896;
+    --brass: #92721F;
+    --brass-deep: #6F5717;
+    --teal: #1F4D42;
+    --error: #9C3B2E;
+    --radius: 2px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Zilla Slab',serif;
+    font-weight:700;
+    margin:0;
+    color:var(--ink);
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* Header */
+  header.site{
+    border-bottom:2px solid var(--ink);
+    padding:22px 20px 18px;
+    background:var(--paper);
+  }
+  .brand{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    max-width:960px;
+    margin:0 auto;
+  }
+  .brand h1{font-size:1.5rem; letter-spacing:0.2px;}
+  .brand .mark{
+    display:inline-block;
+    width:10px;height:10px;
+    background:var(--brass);
+    margin-right:9px;
+    transform:rotate(45deg);
+    vertical-align:middle;
+  }
+  .brand .tag{
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;
+  }
+
+  /* Ad slots */
+  .ad-slot{
+    max-width:960px;
+    margin:14px auto;
+    padding:10px;
+    border:1px dashed var(--rule);
+    color:var(--ink-soft);
+    font-size:0.72rem;
+    font-family:'IBM Plex Mono',monospace;
+    text-align:center;
+    background:var(--paper-2);
+  }
+
+  /* Layout */
+  .wrap{
+    max-width:960px;
+    margin:0 auto;
+    padding:20px;
+    display:grid;
+    grid-template-columns:190px 1fr;
+    gap:26px;
+    align-items:start;
+  }
+  @media (max-width:720px){
+    .wrap{grid-template-columns:1fr;}
+  }
+
+  /* Tab list (ledger index) */
+  nav.index{
+    border-right:1px solid var(--rule);
+    padding-right:18px;
+    position:sticky;
+    top:16px;
+  }
+  @media (max-width:720px){
+    nav.index{
+      border-right:none;
+      border-bottom:1px solid var(--rule);
+      padding-right:0;
+      padding-bottom:10px;
+      position:static;
+      display:flex;
+      overflow-x:auto;
+      gap:4px;
+    }
+  }
+  nav.index .idx-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+    display:block;
+  }
+  @media (max-width:720px){ nav.index .idx-label{display:none;} }
+  button.tab{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    border-left:3px solid transparent;
+    padding:9px 4px 9px 10px;
+    font-family:'Inter',sans-serif;
+    font-size:0.92rem;
+    color:var(--ink-soft);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  button.tab:hover{ color:var(--ink); }
+  button.tab.active{
+    border-left-color:var(--brass);
+    color:var(--ink);
+    font-weight:600;
+    background:var(--paper-2);
+  }
+
+  /* Main panel */
+  main{min-width:0;}
+  section.tool{ display:none; }
+  section.tool.active{ display:block; }
+
+  .entry-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:8px;
+    margin-bottom:18px;
+  }
+  .entry-head h2{ font-size:1.35rem; }
+  .entry-head .no{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.75rem;
+    color:var(--brass-deep);
+  }
+  .lede{
+    color:var(--ink-soft);
+    font-size:0.92rem;
+    margin-bottom:20px;
+    max-width:56ch;
+  }
+
+  .field{ margin-bottom:14px; }
+  .field label{
+    display:block;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    margin-bottom:5px;
+  }
+  .field input, .field select{
+    width:100%;
+    padding:10px 11px;
+    border:1px solid var(--rule);
+    border-radius:var(--radius);
+    background:#fff;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.95rem;
+    color:var(--ink);
+  }
+  .field input:focus, .field select:focus{
+    outline:2px solid var(--teal);
+    outline-offset:1px;
+  }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:480px){ .row2{ grid-template-columns:1fr; } }
+
+  .btn{
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    padding:11px 22px;
+    font-family:'Inter',sans-serif;
+    font-size:0.92rem;
+    font-weight:600;
+    cursor:pointer;
+    border-radius:var(--radius);
+    margin-top:4px;
+  }
+  .btn:hover{ background:var(--teal); }
+
+  .result{
+    margin-top:22px;
+    border:1px solid var(--ink);
+    padding:16px 18px;
+    background:var(--paper-2);
+  }
+  .result .stamp{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.05em;
+    color:var(--brass-deep);
+    border:1px solid var(--brass-deep);
+    padding:2px 7px;
+    margin-bottom:10px;
+  }
+  .result .big{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:1.9rem;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .result .sub{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+  .result.neg .big{ color:var(--error); }
+  .result-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px 20px;
+    margin-top:10px;
+  }
+  .result-grid div span{ display:block; }
+  .result-grid .k{ font-size:0.76rem; color:var(--ink-soft); }
+  .result-grid .v{ font-family:'IBM Plex Mono',monospace; font-size:1.05rem; }
+
+  footer.site{
+    border-top:2px solid var(--ink);
+    margin-top:40px;
+    padding:20px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:0.78rem;
+    font-family:'IBM Plex Mono',monospace;
+  }
+
+  @media (prefers-reduced-motion:no-preference){
+    section.tool.active{ animation:fade .18s ease-out; }
+    @keyframes fade{ from{opacity:0;} to{opacity:1;} }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="brand">
+    <h1><span class="mark"></span>Ledger Tools</h1>
+    <span class="tag">no sign-up · results instantly</span>
+  </div>
+</header>
+
+<div class="ad-slot">AD SLOT — top banner (728×90 / responsive)</div>
+
+<div class="wrap">
+  <nav class="index" id="tabList">
+    <span class="idx-label">CONTENTS</span>
+    <button class="tab active" data-tool="crypto">01 · Crypto P/L</button>
+    <button class="tab" data-tool="emi">02 · Loan EMI</button>
+    <button class="tab" data-tool="percent">03 · Percentage</button>
+    <button class="tab" data-tool="convert">04 · Unit Convert</button>
+    <button class="tab" data-tool="age">05 · Age Calc</button>
+  </nav>
+
+  <main>
+
+    <!-- 1. Crypto Profit/Loss -->
+    <section class="tool active" id="crypto">
+      <div class="entry-head"><h2>Crypto Profit / Loss</h2><span class="no">ENTRY 01</span></div>
+      <p class="lede">Work out gain or loss on a trade, including any exchange fee.</p>
+
+      <div class="row2">
+        <div class="field"><label>Buy price (per coin)</label><input type="number" id="c_buy" placeholder="e.g. 62000"></div>
+        <div class="field"><label>Sell price (per coin)</label><input type="number" id="c_sell" placeholder="e.g. 68500"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Quantity</label><input type="number" id="c_qty" placeholder="e.g. 0.25"></div>
+        <div class="field"><label>Fee (% per side, optional)</label><input type="number" id="c_fee" placeholder="e.g. 0.1"></div>
+      </div>
+      <button class="btn" onclick="calcCrypto()">Calculate</button>
+      <div class="result" id="c_result" style="display:none;"></div>
+    </section>
+
+    <!-- 2. Loan EMI -->
+    <section class="tool" id="emi">
+      <div class="entry-head"><h2>Loan / EMI Calculator</h2><span class="no">ENTRY 02</span></div>
+      <p class="lede">Estimate your fixed monthly installment on a loan.</p>
+
+      <div class="row2">
+        <div class="field"><label>Loan amount</label><input type="number" id="e_amt" placeholder="e.g. 500000"></div>
+        <div class="field"><label>Annual interest rate (%)</label><input type="number" id="e_rate" placeholder="e.g. 12"></div>
+      </div>
+      <div class="field"><label>Tenure (months)</label><input type="number" id="e_tenure" placeholder="e.g. 36"></div>
+      <button class="btn" onclick="calcEMI()">Calculate</button>
+      <div class="result" id="e_result" style="display:none;"></div>
+    </section>
+
+    <!-- 3. Percentage -->
+    <section class="tool" id="percent">
+      <div class="entry-head"><h2>Percentage Calculator</h2><span class="no">ENTRY 03</span></div>
+      <p class="lede">Three common percentage problems in one place.</p>
+
+      <div class="field"><label>What is X% of Y?</label>
+        <div class="row2">
+          <input type="number" id="p1_x" placeholder="X %">
+          <input type="number" id="p1_y" placeholder="Y">
+        </div>
+      </div>
+      <button class="btn" onclick="calcPercent1()">Calculate</button>
+      <div class="result" id="p1_result" style="display:none;"></div>
+
+      <div class="field" style="margin-top:26px;"><label>X is what % of Y?</label>
+        <div class="row2">
+          <input type="number" id="p2_x" placeholder="X">
+          <input type="number" id="p2_y" placeholder="Y">
+        </div>
+      </div>
+      <button class="btn" onclick="calcPercent2()">Calculate</button>
+      <div class="result" id="p2_result" style="display:none;"></div>
+
+      <div class="field" style="margin-top:26px;"><label>% change from X to Y</label>
+        <div class="row2">
+          <input type="number" id="p3_x" placeholder="From (X)">
+          <input type="number" id="p3_y" placeholder="To (Y)">
+        </div>
+      </div>
+      <button class="btn" onclick="calcPercent3()">Calculate</button>
+      <div class="result" id="p3_result" style="display:none;"></div>
+    </section>
+
+    <!-- 4. Unit converter -->
+    <section class="tool" id="convert">
+      <div class="entry-head"><h2>Unit Converter</h2><span class="no">ENTRY 04</span></div>
+      <p class="lede">Length and weight conversions.</p>
+
+      <div class="field"><label>Category</label>
+        <select id="u_cat" onchange="buildUnitOptions()">
+          <option value="length">Length</option>
+          <option value="weight">Weight</option>
+        </select>
+      </div>
+      <div class="row2">
+        <div class="field"><label>From</label><select id="u_from"></select></div>
+        <div class="field"><label>To</label><select id="u_to"></select></div>
+      </div>
+      <div class="field"><label>Value</label><input type="number" id="u_val" placeholder="e.g. 100"></div>
+      <button class="btn" onclick="calcConvert()">Convert</button>
+      <div class="result" id="u_result" style="display:none;"></div>
+    </section>
+
+    <!-- 5. Age -->
+    <section class="tool" id="age">
+      <div class="entry-head"><h2>Age Calculator</h2><span class="no">ENTRY 05</span></div>
+      <p class="lede">Exact age in years, months and days from a date of birth.</p>
+
+      <div class="field"><label>Date of birth</label><input type="date" id="a_dob"></div>
+      <button class="btn" onclick="calcAge()">Calculate</button>
+      <div class="result" id="a_result" style="display:none;"></div>
+    </section>
+
+    <div class="ad-slot">AD SLOT — in-content (below calculator)</div>
+
+  </main>
+</div>
+
+<footer class="site">
+  Ledger Tools — free calculators, built for everyday use.
+</footer>
+
+<script>
+// ---- Tab switching ----
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tool').forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tool).classList.add('active');
+  });
+});
+
+function fmt(n, d=2){
+  if(isNaN(n)) return '—';
+  return n.toLocaleString(undefined, {minimumFractionDigits:d, maximumFractionDigits:d});
+}
+
+// ---- 1. Crypto P/L ----
+function calcCrypto(){
+  const buy = parseFloat(document.getElementById('c_buy').value);
+  const sell = parseFloat(document.getElementById('c_sell').value);
+  const qty = parseFloat(document.getElementById('c_qty').value);
+  const fee = parseFloat(document.getElementById('c_fee').value) || 0;
+
+  const box = document.getElementById('c_result');
+  if(isNaN(buy) || isNaN(sell) || isNaN(qty)){
+    box.style.display='block'; box.className='result';
+    box.innerHTML = '<span class="sub">Enter buy price, sell price and quantity.</span>';
+    return;
+  }
+
+  const cost = buy * qty;
+  const proceeds = sell * qty;
+  const buyFee = cost * (fee/100);
+  const sellFee = proceeds * (fee/100);
+  const net = (proceeds - sellFee) - (cost + buyFee);
+  const pct = (net / (cost + buyFee)) * 100;
+
+  box.style.display='block';
+  box.className = 'result' + (net < 0 ? ' neg' : '');
+  box.innerHTML = `
+    <span class="stamp">${net>=0?'PROFIT':'LOSS'}</span>
+    <div class="big">${net>=0?'':'-'}${fmt(Math.abs(net))}</div>
+    <div class="sub">${fmt(Math.abs(pct))}% ${net>=0?'gain':'loss'} on invested amount</div>
+    <div class="result-grid">
+      <div><span class="k">Cost (incl. fee)</span><span class="v">${fmt(cost+buyFee)}</span></div>
+      <div><span class="k">Proceeds (after fee)</span><span class="v">${fmt(proceeds-sellFee)}</span></div>
+    </div>`;
+}
+
+// ---- 2. EMI ----
+function calcEMI(){
+  const P = parseFloat(document.getElementById('e_amt').value);
+  const annualRate = parseFloat(document.getElementById('e_rate').value);
+  const n = parseFloat(document.getElementById('e_tenure').value);
+  const box = document.getElementById('e_result');
+
+  if(isNaN(P) || isNaN(annualRate) || isNaN(n) || n<=0){
+    box.style.display='block'; box.className='result';
+    box.innerHTML = '<span class="sub">Enter loan amount, rate and tenure.</span>';
+    return;
+  }
+
+  const r = annualRate/12/100;
+  let emi;
+  if(r === 0){ emi = P/n; }
+  else{ emi = (P * r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1); }
+  const total = emi * n;
+  const interest = total - P;
+
+  box.style.display='block'; box.className='result';
+  box.innerHTML = `
+    <span class="stamp">MONTHLY EMI</span>
+    <div class="big">${fmt(emi)}</div>
+    <div class="result-grid">
+      <div><span class="k">Total payment</span><span class="v">${fmt(total)}</span></div>
+      <div><span class="k">Total interest</span><span class="v">${fmt(interest)}</span></div>
+    </div>`;
+}
+
+// ---- 3. Percentage ----
+function calcPercent1(){
+  const x = parseFloat(document.getElementById('p1_x').value);
+  const y = parseFloat(document.getElementById('p1_y').value);
+  const box = document.getElementById('p1_result');
+  if(isNaN(x)||isNaN(y)){ box.style.display='block'; box.innerHTML='<span class="sub">Enter both values.</span>'; return; }
+  box.style.display='block'; box.className='result';
+  box.innerHTML = `<div class="big">${fmt(x*y/100)}</div><div class="sub">${x}% of ${y}</div>`;
+}
+function calcPercent2(){
+  const x = parseFloat(document.getElementById('p2_x').value);
+  const y = parseFloat(document.getElementById('p2_y').value);
+  const box = document.getElementById('p2_result');
+  if(isNaN(x)||isNaN(y)||y===0){ box.style.display='block'; box.innerHTML='<span class="sub">Enter both values (Y ≠ 0).</span>'; return; }
+  box.style.display='block'; box.className='result';
+  box.innerHTML = `<div class="big">${fmt(x/y*100)}%</div><div class="sub">${x} is this % of ${y}</div>`;
+}
+function calcPercent3(){
+  const x = parseFloat(document.getElementById('p3_x').value);
+  const y = parseFloat(document.getElementById('p3_y').value);
+  const box = document.getElementById('p3_result');
+  if(isNaN(x)||isNaN(y)||x===0){ box.style.display='block'; box.innerHTML='<span class="sub">Enter both values (From ≠ 0).</span>'; return; }
+  const change = (y-x)/Math.abs(x)*100;
+  box.style.display='block'; box.className='result' + (change<0?' neg':'');
+  box.innerHTML = `<span class="stamp">${change>=0?'INCREASE':'DECREASE'}</span><div class="big">${fmt(Math.abs(change))}%</div>`;
+}
+
+// ---- 4. Unit convert ----
+const units = {
+  length: { m:1, km:1000, cm:0.01, mm:0.001, mile:1609.34, yard:0.9144, foot:0.3048, inch:0.0254 },
+  weight: { kg:1, g:0.001, mg:0.000001, ton:1000, pound:0.453592, ounce:0.0283495 }
+};
+function buildUnitOptions(){
+  const cat = document.getElementById('u_cat').value;
+  const from = document.getElementById('u_from');
+  const to = document.getElementById('u_to');
+  from.innerHTML = ''; to.innerHTML = '';
+  Object.keys(units[cat]).forEach(u=>{
+    from.innerHTML += `<option value="${u}">${u}</option>`;
+    to.innerHTML += `<option value="${u}">${u}</option>`;
+  });
+  to.selectedIndex = 1;
+}
+buildUnitOptions();
+function calcConvert(){
+  const cat = document.getElementById('u_cat').value;
+  const from = document.getElementById('u_from').value;
+  const to = document.getElementById('u_to').value;
+  const val = parseFloat(document.getElementById('u_val').value);
+  const box = document.getElementById('u_result');
+  if(isNaN(val)){ box.style.display='block'; box.innerHTML='<span class="sub">Enter a value.</span>'; return; }
+  const base = val * units[cat][from];
+  const result = base / units[cat][to];
+  box.style.display='block'; box.className='result';
+  box.innerHTML = `<div class="big">${fmt(result, 4)} ${to}</div><div class="sub">${val} ${from} = ${fmt(result,4)} ${to}</div>`;
+}
+
+// ---- 5. Age ----
+function calcAge(){
+  const dobStr = document.getElementById('a_dob').value;
+  const box = document.getElementById('a_result');
+  if(!dobStr){ box.style.display='block'; box.innerHTML='<span class="sub">Pick a date of birth.</span>'; return; }
+  const dob = new Date(dobStr);
+  const now = new Date();
+  if(dob > now){ box.style.display='block'; box.innerHTML='<span class="sub">Date of birth is in the future.</span>'; return; }
+
+  let years = now.getFullYear() - dob.getFullYear();
+  let months = now.getMonth() - dob.getMonth();
+  let days = now.getDate() - dob.getDate();
+  if(days < 0){
+    months -= 1;
+    const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+  if(months < 0){ years -= 1; months += 12; }
+  const totalDays = Math.floor((now - dob)/(1000*60*60*24));
+
+  box.style.display='block'; box.className='result';
+  box.innerHTML = `
+    <span class="stamp">AGE TODAY</span>
+    <div class="big">${years}y ${months}m ${days}d</div>
+    <div class="sub">${totalDays.toLocaleString()} days lived</div>`;
+}
+</script>
+
+</body>
+</html>
