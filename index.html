@@ -275,18 +275,19 @@
 <div class="wrap">
   <nav class="index" id="tabList">
     <span class="idx-label">CONTENTS</span>
-    <button class="tab active" data-tool="crypto">01 · Crypto P/L</button>
-    <button class="tab" data-tool="emi">02 · Loan EMI</button>
-    <button class="tab" data-tool="percent">03 · Percentage</button>
-    <button class="tab" data-tool="convert">04 · Unit Convert</button>
-    <button class="tab" data-tool="age">05 · Age Calc</button>
+    <button class="tab active" data-tool="tile">01 · Stairs/Tile</button>
+    <button class="tab" data-tool="crypto">02 · Crypto P/L</button>
+    <button class="tab" data-tool="emi">03 · Loan EMI</button>
+    <button class="tab" data-tool="percent">04 · Percentage</button>
+    <button class="tab" data-tool="convert">05 · Unit Convert</button>
+    <button class="tab" data-tool="age">06 · Age Calc</button>
   </nav>
 
   <main>
 
-    <!-- 1. Crypto Profit/Loss -->
-    <section class="tool active" id="crypto">
-      <div class="entry-head"><h2>Crypto Profit / Loss</h2><span class="no">ENTRY 01</span></div>
+    <!-- 2. Crypto Profit/Loss -->
+    <section class="tool" id="crypto">
+      <div class="entry-head"><h2>Crypto Profit / Loss</h2><span class="no">ENTRY 02</span></div>
       <p class="lede">Work out gain or loss on a trade, including any exchange fee.</p>
 
       <div class="row2">
@@ -301,9 +302,9 @@
       <div class="result" id="c_result" style="display:none;"></div>
     </section>
 
-    <!-- 2. Loan EMI -->
+    <!-- 3. Loan EMI -->
     <section class="tool" id="emi">
-      <div class="entry-head"><h2>Loan / EMI Calculator</h2><span class="no">ENTRY 02</span></div>
+      <div class="entry-head"><h2>Loan / EMI Calculator</h2><span class="no">ENTRY 03</span></div>
       <p class="lede">Estimate your fixed monthly installment on a loan.</p>
 
       <div class="row2">
@@ -315,9 +316,9 @@
       <div class="result" id="e_result" style="display:none;"></div>
     </section>
 
-    <!-- 3. Percentage -->
+    <!-- 4. Percentage -->
     <section class="tool" id="percent">
-      <div class="entry-head"><h2>Percentage Calculator</h2><span class="no">ENTRY 03</span></div>
+      <div class="entry-head"><h2>Percentage Calculator</h2><span class="no">ENTRY 04</span></div>
       <p class="lede">Three common percentage problems in one place.</p>
 
       <div class="field"><label>What is X% of Y?</label>
@@ -348,9 +349,9 @@
       <div class="result" id="p3_result" style="display:none;"></div>
     </section>
 
-    <!-- 4. Unit converter -->
+    <!-- 5. Unit converter -->
     <section class="tool" id="convert">
-      <div class="entry-head"><h2>Unit Converter</h2><span class="no">ENTRY 04</span></div>
+      <div class="entry-head"><h2>Unit Converter</h2><span class="no">ENTRY 05</span></div>
       <p class="lede">Length and weight conversions.</p>
 
       <div class="field"><label>Category</label>
@@ -368,9 +369,9 @@
       <div class="result" id="u_result" style="display:none;"></div>
     </section>
 
-    <!-- 5. Age -->
+    <!-- 6. Age -->
     <section class="tool" id="age">
-      <div class="entry-head"><h2>Age Calculator</h2><span class="no">ENTRY 05</span></div>
+      <div class="entry-head"><h2>Age Calculator</h2><span class="no">ENTRY 06</span></div>
       <p class="lede">Exact age in years, months and days from a date of birth.</p>
 
       <div class="field"><label>Date of birth</label><input type="date" id="a_dob"></div>
@@ -378,11 +379,26 @@
       <div class="result" id="a_result" style="display:none;"></div>
     </section>
 
+    <!-- 1. Stairs / Tile Area & Cost -->
+    <section class="tool active" id="tile">
+      <div class="entry-head"><h2>Stairs &amp; Tile Calculator</h2><span class="no">ENTRY 01</span></div>
+      <p class="lede">For each row: dimension × width × quantity, in inches — with its own rate per sq ft. Mix floor, stairs, walls, or any surface at different rates in one total.</p>
+
+      <div id="tileRooms"></div>
+
+      <button class="btn" type="button" onclick="addTileRoom()" style="background:transparent; color:var(--ink); border:1px solid var(--ink); margin-right:10px; margin-bottom:18px;">+ Add Row</button>
+
+      <button class="btn" onclick="calcTile()">Calculate Total</button>
+
+      <div class="result" id="t_result" style="display:none;"></div>
+    </section>
+
     <section class="about-block" id="about">
       <h2 style="font-size:1.15rem; margin-bottom:10px;">About Ledger Tools</h2>
       <p class="lede" style="max-width:70ch;">
         Ledger Tools is a small collection of free, no-sign-up calculators for everyday math:
-        crypto profit and loss, loan EMI, percentage problems, unit conversion, and age.
+        crypto profit and loss, loan EMI, percentage problems, unit conversion, age, and
+        stairs/tile area and cost.
         Every calculation runs directly in your browser — nothing you type is sent to a server
         or stored anywhere. The goal is simple: quick, accurate answers without ads getting in
         the way of the numbers you actually need.
@@ -565,6 +581,119 @@ function calcAge(){
     <div class="big">${years}y ${months}m ${days}d</div>
     <div class="sub">${totalDays.toLocaleString()} days lived</div>`;
 }
+
+// ---- 6. Stairs / Tile (tread × width × qty, all inches) ----
+let tileRoomCount = 0;
+
+function addTileRoom(){
+  tileRoomCount++;
+  const id = tileRoomCount;
+  const wrap = document.createElement('div');
+  wrap.className = 'tile-room';
+  wrap.id = 'tileRoom' + id;
+  wrap.style.cssText = 'border:1px solid var(--rule); padding:14px; margin-bottom:14px; background:var(--paper-2);';
+  wrap.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <input type="text" placeholder="Label (e.g. Gali tread, Kitchen riser)" id="t_name_${id}"
+        style="border:none; background:transparent; font-family:'Zilla Slab',serif; font-size:0.95rem; font-weight:600; padding:4px 0; width:70%;">
+      <button type="button" onclick="removeTileRoom(${id})" style="background:none; border:none; color:var(--error); cursor:pointer; font-size:0.85rem;">Remove</button>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>Depth / height (in)</label>
+        <input type="number" placeholder="e.g. 12 or 6" id="t_d_${id}">
+      </div>
+      <div class="field">
+        <label>Width (in)</label>
+        <input type="number" placeholder="e.g. 42" id="t_w_${id}">
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>Quantity</label>
+        <input type="number" placeholder="e.g. 3" id="t_q_${id}" value="1">
+      </div>
+      <div class="field">
+        <label>Rate per sq ft (this row)</label>
+        <input type="number" placeholder="e.g. 280" id="t_r_${id}">
+      </div>
+    </div>
+    <div class="sub" id="t_sub_${id}" style="margin-top:4px;"></div>
+  `;
+  document.getElementById('tileRooms').appendChild(wrap);
+}
+
+function removeTileRoom(id){
+  const el = document.getElementById('tileRoom' + id);
+  if(el) el.remove();
+}
+
+function calcTile(){
+  const rows = document.querySelectorAll('.tile-room');
+  const box = document.getElementById('t_result');
+
+  if(rows.length === 0){
+    box.style.display='block'; box.className='result';
+    box.innerHTML = '<span class="sub">Add at least one row.</span>';
+    return;
+  }
+
+  let totalSqft = 0;
+  let totalAmount = 0;
+  let hasAnyRate = false;
+  let rowsHtml = '';
+  let valid = true;
+
+  rows.forEach(row => {
+    const id = row.id.replace('tileRoom','');
+    const d = parseFloat(document.getElementById('t_d_'+id).value) || 0;
+    const w = parseFloat(document.getElementById('t_w_'+id).value) || 0;
+    const q = parseFloat(document.getElementById('t_q_'+id).value) || 1;
+    const r = parseFloat(document.getElementById('t_r_'+id).value) || 0;
+    const name = document.getElementById('t_name_'+id).value || ('Row ' + id);
+
+    if(d <= 0 || w <= 0){ valid = false; return; }
+
+    const sqft = (d * w * q) / 144;
+    totalSqft += sqft;
+
+    let subText = `${d}in × ${w}in × ${q} = ${fmt(sqft)} sqft`;
+    let amountText = fmt(sqft) + ' sqft';
+
+    if(r > 0){
+      const amount = sqft * r;
+      totalAmount += amount;
+      hasAnyRate = true;
+      subText += ` · Rs ${fmt(amount)}`;
+      amountText = `${fmt(sqft)} sqft — Rs ${fmt(amount)}`;
+    }
+
+    document.getElementById('t_sub_'+id).textContent = subText;
+    rowsHtml += `<div><span class="k">${name}</span><span class="v">${amountText}</span></div>`;
+  });
+
+  if(!valid){
+    box.style.display='block'; box.className='result';
+    box.innerHTML = '<span class="sub">Enter depth/height and width (in inches) for every row.</span>';
+    return;
+  }
+
+  box.style.display='block'; box.className='result';
+  let html = `
+    <span class="stamp">TOTAL AREA</span>
+    <div class="big">${fmt(totalSqft)} sq ft</div>`;
+
+  if(hasAnyRate){
+    html += `<div class="sub">Total cost, using each row's own rate</div>
+      <div class="big" style="margin-top:10px;">Rs ${fmt(totalAmount)}</div>`;
+  }
+
+  html += `<div class="result-grid">${rowsHtml}</div>`;
+  box.innerHTML = html;
+}
+
+// Start with one row visible
+addTileRoom();
 </script>
 
 </body>
